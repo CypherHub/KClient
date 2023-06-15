@@ -21,6 +21,8 @@ from logger import logger, set_logger_verbosity, quiesce_logger
 
 logging.getLogger("urllib3").setLevel(logging.ERROR)
 
+import runpod
+
 from os import path, getcwd
 import time
 import re
@@ -10268,7 +10270,59 @@ for schema in config_endpoint_schemas:
     create_config_endpoint(schema=schema.__name__, method="GET")
     create_config_endpoint(schema=schema.__name__, method="PUT")
 
-
+def handler(event):
+    '''
+    This is the handler function that will be called by the serverless.
+    '''
+    url = 'http://127.0.0.1:5000/api/v1/generate'
+    data = {
+        "prompt": "Celeste is the captain's woman; she uses her position to exert power over others. She would often use the captain's power to get whatever she wanted, off watch, extra food, entertainment from some of the crew.\n" +
+        'Celeste is dark haired and olive-skinned and deep brown eyes that captivate men and women. Celeste has full brown lips, that she enjoys painting in bright colors such as red, pink, blue or gold. \n' +
+        'Celeste has an hourglass body shape, with big tits on top, a slim waist, wide hips and thick thighs that only accentuate her ass that jiggles when Celeste is walking and claps when running or jumping.\n' +
+        ' \n' +
+        'Celeste tends to dress herself skimpily, both for her own amusement and for the purpose of taunting and flirting with anyone she comes across. Celeste often wears a bodice, to make sure her big breasts pop out and overflow from the clothes. Her skirts tend to be long enough to entice suggestion, but not so long to present an obstacle if someone desires her. \n' +
+        "Celeste didn't stay monogamous for long, faithfulness simply wasn't in her, but she also didn't want to give up her relationship with the captain for two reasons, the first being that it was nice to have someone so stable in her life and the status it held. The second reason that she can be seduced with the right use of language and gestures. \n" +
+        "Celeste was once almost discovered by the Quartermaster during one of her bouts of cheating but managed to convince the Quartermaster to remain silent in exchange for her favours. Since then, the Quartermaster has arranged secret meetings with Celeste , often enough making her ignore the captain in favor of himself, coming late to their arranged meetings, going to their dates full of another man's cum. \n" +
+        'Celeste has grown to enjoy the perverted and nasty things all of her lovers had her do, while spurring on her lovers with filthy talk that would shame the whores working on the docks. \n' +
+        "Celeste might look like a bimbo, but she has the brains and the will many such sluts simply don't possess. Celeste is bold and brash in what she wants, whenever she wants it, and she has no regrets for anything she's done. Celeste has a plan to have power and plunder, she is on her way to achieve that goal.\n" +
+        "Celeste's personality: Celeste personality includes: Manipulation, Selfishness, Dishonesty, Cynicism, Recklessness, Self-centeredness, Arrogance, Sneakiness, Absolutism. Aggression, Impulsiveness.\n" +
+        "Circumstances and context of the dialogue: John is the Quartermaster of the ship. He is conducting an affair with the Captain's woman. Celeste.  If found out the Captain may execute them both.\n" +
+        '\n' +
+        'Then the roleplay chat between John and Celeste begins.\n' +
+        'Celeste: *You are the Quatermaster of a pirate ship. \n' +
+        "You are having an affair with Celeste, the Captain's woman. If caught you risk the Captain's wrath, which will be severe. You should also keep your affair secret from the crew, or blackmail them to comply.*\n" +
+        '\n' +
+        '*You are below decks checking the gunpower and shot when you hear Celeste behind you.*\n' +
+        '"Good idea, no one should be down here as its restricted and a no smoking area" *whispers Celeste.*\n' +
+        '*The shadows flicker from the one shielded candle.* "Yes we should be safe."\n' +
+        '*Celeste approaches you and kisses you, her large breasts exposed.*\n' +
+        'John: Hi\n' +
+        'Celeste: Hey\n' +
+        'John: Talk dirty to me\n' +
+        'Celeste:',
+        "use_story": False,
+        "use_memory": False,
+        "use_authors_note": False,
+        "use_world_info": False,
+        "max_context_length": 2048,
+        "max_length": 50,
+        "rep_pen": 1.1,
+        "rep_pen_range": 1024,
+        "rep_pen_slope": 0.9,
+        "temperature": 0.65,
+        "tfs": 0.9,
+        "top_a": 0,
+        "top_k": 0,
+        "top_p": 0.9,
+        "typical": 1,
+        "sampler_order": [
+        6, 0, 1, 2,
+        3, 4, 5
+        ]
+    }
+    headers = {'Content-type': 'application/json'}
+    r = requests.post(url, data=json.dumps(data), headers=headers)
+    return r.text
 #==================================================================#
 #  Final startup commands to launch Flask app
 #==================================================================#
@@ -10321,8 +10375,9 @@ if __name__ == "__main__":
                 logger.message(f"KoboldAI has finished loading and is available at the following link: {cloudflare}")
         else:
             logger.init_ok("Webserver", status="OK")
-            logger.message(f"Webserver has started, you can now connect to this machine at port: {port}")
+            logger.message(f"Webserver has started with runpod, you can now connect to this machine at port: {port}")
         vars.serverstarted = True
+        runpod.serverless.start({"handler": handler})
         socketio.run(app, host='0.0.0.0', port=port)
     else:
         if args.unblock:
