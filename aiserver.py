@@ -10270,11 +10270,12 @@ for schema in config_endpoint_schemas:
     create_config_endpoint(schema=schema.__name__, method="GET")
     create_config_endpoint(schema=schema.__name__, method="PUT")
 
-def handler(event):
+def handlerRunpod(event):
     '''
     This is the handler function that will be called by the serverless.
     '''
-    url = 'http://127.0.0.1:5000/api/v1/generate'
+    # url = 'http://127.0.0.1:5000/api/v1/generate'
+    url = event['input']['server_url']
     data = {
         "prompt": "Celeste is the captain's woman; she uses her position to exert power over others. She would often use the captain's power to get whatever she wanted, off watch, extra food, entertainment from some of the crew.\n" +
         'Celeste is dark haired and olive-skinned and deep brown eyes that captivate men and women. Celeste has full brown lips, that she enjoys painting in bright colors such as red, pink, blue or gold. \n' +
@@ -10377,7 +10378,7 @@ if __name__ == "__main__":
             logger.init_ok("Webserver", status="OK")
             logger.message(f"Webserver has started with runpod, you can now connect to this machine at port: {port}")
         vars.serverstarted = True
-        runpod.serverless.start({"handler": handler})
+        runpod.serverless.start({"handler": handlerRunpod})
         socketio.run(app, host='0.0.0.0', port=port)
     else:
         if args.unblock:
