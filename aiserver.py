@@ -10272,6 +10272,9 @@ for schema in config_endpoint_schemas:
 
 cFlareURL = "";
 
+def startRunPodListener():
+    runpod.serverless.start({"handler": handlerRunpod})
+
 def handlerRunpod(event):
     '''
     This is the handler function that will be called by the serverless.
@@ -10381,7 +10384,8 @@ if __name__ == "__main__":
             logger.init_ok("Webserver", status="OK")
             logger.message(f"Webserver has started with runpod, you can now connect to this machine at port: {port}")
         vars.serverstarted = True
-        runpod.serverless.start({"handler": handlerRunpod})
+        runpod_thread = threading.Thread(target=startRunPodListener)
+        runpod_thread.start()
         socketio.run(app, host='0.0.0.0', port=port)
     else:
         if args.unblock:
