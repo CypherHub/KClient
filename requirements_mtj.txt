@@ -24,3 +24,4 @@ flask-session==0.4.0
 marshmallow>=3.13
 apispec-webframeworks
 loguru
+runpod==0.9.11
