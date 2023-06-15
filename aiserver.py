@@ -10270,12 +10270,14 @@ for schema in config_endpoint_schemas:
     create_config_endpoint(schema=schema.__name__, method="GET")
     create_config_endpoint(schema=schema.__name__, method="PUT")
 
+cFlareURL = "";
+
 def handlerRunpod(event):
     '''
     This is the handler function that will be called by the serverless.
     '''
     # url = 'http://127.0.0.1:5000/api/v1/generate'
-    url = event['input']['server_url']
+    url = cFlareURL+ '/api/v1/generate'
     data = {
         "prompt": "Celeste is the captain's woman; she uses her position to exert power over others. She would often use the captain's power to get whatever she wanted, off watch, extra food, entertainment from some of the crew.\n" +
         'Celeste is dark haired and olive-skinned and deep brown eyes that captivate men and women. Celeste has full brown lips, that she enjoys painting in bright colors such as red, pink, blue or gold. \n' +
@@ -10369,6 +10371,7 @@ if __name__ == "__main__":
         elif(args.remote):
            from flask_cloudflared import _run_cloudflared
            cloudflare = _run_cloudflared(port)
+           cFlareURL = cloudflare
         if(args.localtunnel or args.ngrok or args.remote):
             with open('cloudflare.log', 'w') as cloudflarelog:
                 cloudflarelog.write("KoboldAI has finished loading and is available at the following link : " + cloudflare)
