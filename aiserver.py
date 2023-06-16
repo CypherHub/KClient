@@ -10271,8 +10271,12 @@ for schema in config_endpoint_schemas:
     create_config_endpoint(schema=schema.__name__, method="PUT")
 
 cFlareURL = "";
+firstTime = False;
 
 def startRunPodListener():
+    if(firstTime == False):
+        firstTime = True;
+        time.sleep(3);
     runpod.serverless.start({"handler": handlerRunpod})
 
 def handlerRunpod(event):
