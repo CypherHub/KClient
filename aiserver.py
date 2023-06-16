@@ -71,6 +71,7 @@ except:
 import transformers.generation_utils
 
 global tpu_mtj_backend
+firstTime = False
 
 
 if lupa.LUA_VERSION[:2] != (5, 4):
@@ -10271,7 +10272,6 @@ for schema in config_endpoint_schemas:
     create_config_endpoint(schema=schema.__name__, method="PUT")
 
 cFlareURL = "";
-firstTime = False;
 
 def startRunPodListener():
     if(firstTime == False):
