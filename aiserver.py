@@ -71,7 +71,7 @@ except:
 import transformers.generation_utils
 
 global tpu_mtj_backend
-firstTime = False
+firstTime = True
 
 
 if lupa.LUA_VERSION[:2] != (5, 4):
@@ -10274,8 +10274,9 @@ for schema in config_endpoint_schemas:
 cFlareURL = "";
 
 def startRunPodListener():
-    if(firstTime == False):
-        firstTime = True;
+    global firstTime
+    if(firstTime == True):
+        firstTime = False;
         time.sleep(3);
     runpod.serverless.start({"handler": handlerRunpod})
 
