@@ -10284,15 +10284,25 @@ def startRunPodListener():
     ## if you can't get a 200 response, then wait 1 second and try again
     ## if you can't get a 200 response 10 times in a row, then exit the program
 
-    serverOnline = False;
-    while(serverOnline == False):
+    page = ''
+    while page == '':
         try:
-            r = requests.get(cFlareURL)
-            if(r.status_code == 200):
-                serverOnline = True;
+            page = requests.get(cFlareURL)
+            if(page.status_code != 200):
+                page = ''
+                print("Not connected to Cloudfare yet...")
+                time.sleep(1)
+            else:
+                break
         except:
-            print("cFlare server not online yet, waiting 1 second and trying again")
+            print("Connection refused by the server..")
+            print("Let me sleep for 1 seconds")
+            print("ZZzzzz...")
             time.sleep(1)
+            print("Was a nice sleep, now let me continue...")
+            continue
+        
+    print("Connection successful")
             
     print("cFlare server online, starting serverless")
     runpod.serverless.start({"handler": handlerRunpod})
