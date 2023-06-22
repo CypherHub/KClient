@@ -10277,7 +10277,7 @@ def startRunPodListener():
     global firstTime
     if(firstTime == True):
         firstTime = False;
-        time.sleep(3);
+        time.sleep(5);
     runpod.serverless.start({"handler": handlerRunpod})
 
 def handlerRunpod(event):
