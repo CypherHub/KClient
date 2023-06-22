@@ -10287,7 +10287,7 @@ def startRunPodListener():
     page = ''
     while page == '':
         try:
-            page = requests.get(cFlareURL)
+            page = requests.get(cFlareURL+"/api/v1/model")
             if(page.status_code != 200):
                 page = ''
                 print("Not connected to Cloudfare yet...")
