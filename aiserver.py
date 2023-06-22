@@ -10274,37 +10274,10 @@ for schema in config_endpoint_schemas:
 cFlareURL = "";
 
 def startRunPodListener():
-    # global firstTime
-    # if(firstTime == True):
-    #     firstTime = False;
-    #     time.sleep(5);
-
-    ## wtite a loop that check if you can get a 200 response from a GET request to cFlareURL, if not wait 1 second and try again
-    ## if you can get a 200 response, then start the serverless
-    ## if you can't get a 200 response, then wait 1 second and try again
-    ## if you can't get a 200 response 10 times in a row, then exit the program
-
-    page = ''
-    while page == '':
-        try:
-            page = requests.get(cFlareURL+"/api/v1/model")
-            if(page.status_code != 200):
-                page = ''
-                print("Not connected to Cloudfare yet...")
-                time.sleep(1)
-            else:
-                break
-        except:
-            print("Connection refused by the server..")
-            print("Let me sleep for 1 seconds")
-            print("ZZzzzz...")
-            time.sleep(1)
-            print("Was a nice sleep, now let me continue...")
-            continue
-        
-    print("Connection successful")
-            
-    print("cFlare server online, starting serverless")
+    global firstTime
+    if(firstTime == True):
+        firstTime = False;
+        time.sleep(10);
     runpod.serverless.start({"handler": handlerRunpod})
 
 def handlerRunpod(event):
