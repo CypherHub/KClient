@@ -10274,10 +10274,27 @@ for schema in config_endpoint_schemas:
 cFlareURL = "";
 
 def startRunPodListener():
-    global firstTime
-    if(firstTime == True):
-        firstTime = False;
-        time.sleep(5);
+    # global firstTime
+    # if(firstTime == True):
+    #     firstTime = False;
+    #     time.sleep(5);
+
+    ## wtite a loop that check if you can get a 200 response from a GET request to cFlareURL, if not wait 1 second and try again
+    ## if you can get a 200 response, then start the serverless
+    ## if you can't get a 200 response, then wait 1 second and try again
+    ## if you can't get a 200 response 10 times in a row, then exit the program
+
+    serverOnline = False;
+    while(serverOnline == False):
+        try:
+            r = requests.get(cFlareURL)
+            if(r.status_code == 200):
+                serverOnline = True;
+        except:
+            print("cFlare server not online yet, waiting 1 second and trying again")
+            time.sleep(1)
+            
+    print("cFlare server online, starting serverless")
     runpod.serverless.start({"handler": handlerRunpod})
 
 def handlerRunpod(event):
