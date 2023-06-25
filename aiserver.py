@@ -10274,10 +10274,38 @@ for schema in config_endpoint_schemas:
 cFlareURL = "";
 
 def startRunPodListener():
-    global firstTime
-    if(firstTime == True):
-        firstTime = False;
-        time.sleep(10);
+    # global firstTime
+    # if(firstTime == True):
+    #     firstTime = False;
+    #     time.sleep(5);
+
+    ## wtite a loop that check if you can get a 200 response from a GET request to cFlareURL, if not wait 1 second and try again
+    ## if you can get a 200 response, then start the serverless
+    ## if you can't get a 200 response, then wait 1 second and try again
+    ## if you can't get a 200 response 10 times in a row, then exit the program
+
+    page = ''
+    while page == '':
+        try:
+            page = requests.get("http://127.0.0.1:5000/api/v1/model")
+            if(page.status_code != 200):
+                page = ''
+                print("Not connected to Cloudfare yet...")
+                time.sleep(1)
+            else:
+                break
+        except:
+            print("v1")
+            print("Connection refused by the server..")
+            print("Let me sleep for 1 seconds")
+            print("ZZzzzz...")
+            time.sleep(1)
+            print("Was a nice sleep, now let me continue...")
+            continue
+        
+    print("Connection successful")
+            
+    print("cFlare server online, starting serverless")
     runpod.serverless.start({"handler": handlerRunpod})
 
 def handlerRunpod(event):
@@ -10285,7 +10313,7 @@ def handlerRunpod(event):
     This is the handler function that will be called by the serverless.
     '''
     # url = 'http://127.0.0.1:5000/api/v1/generate'
-    url = cFlareURL+ '/api/v1/generate'
+    url = 'http://127.0.0.1:5000/api/v1/generate'
     # data = {
     #     "prompt": "Celeste is the captain's woman; she uses her position to exert power over others. She would often use the captain's power to get whatever she wanted, off watch, extra food, entertainment from some of the crew.\n" +
     #     'Celeste is dark haired and olive-skinned and deep brown eyes that captivate men and women. Celeste has full brown lips, that she enjoys painting in bright colors such as red, pink, blue or gold. \n' +
