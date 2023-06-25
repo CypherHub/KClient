@@ -10313,7 +10313,7 @@ def handlerRunpod(event):
     This is the handler function that will be called by the serverless.
     '''
     # url = 'http://127.0.0.1:5000/api/v1/generate'
-    url = cFlareURL+ '/api/v1/generate'
+    url = 'http://127.0.0.1:5000/api/v1/generate'
     # data = {
     #     "prompt": "Celeste is the captain's woman; she uses her position to exert power over others. She would often use the captain's power to get whatever she wanted, off watch, extra food, entertainment from some of the crew.\n" +
     #     'Celeste is dark haired and olive-skinned and deep brown eyes that captivate men and women. Celeste has full brown lips, that she enjoys painting in bright colors such as red, pink, blue or gold. \n' +
