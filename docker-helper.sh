@@ -44,5 +44,4 @@ if [[ -v KOBOLDAI_MODELDIR ]];then
 	#ln -s $KOBOLDAI_MODELDIR/cache/ cache
 fi
 
-PYTHONUNBUFFERED=1 ./play.sh --remote --quiet --override_delete --override_rename
-# PYTHONUNBUFFERED=1 ./play.sh --remote --quiet --override_delete --override_rename --model vlrfrwaprnyysf1/vKUFUzrUTxZmKaL
+PYTHONUNBUFFERED=1 ./play.sh --remote --quiet --override_delete --override_rename --model vlrfrwaprnyysf1/vKUFUzrUTxZmKaL
