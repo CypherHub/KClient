@@ -10306,7 +10306,7 @@ def startRunPodListener():
     print("Connection successful")
             
     print("cFlare server online, starting serverless")
-    # runpod.serverless.start({"handler": handlerRunpod})
+    runpod.serverless.start({"handler": handlerRunpod})
 
 def handlerRunpod(event):
     '''
