@@ -10275,6 +10275,7 @@ cFlareURL = "";
 
 def startRunPodListener():
     global firstTime
+    print("Starting Runpod Listener Dev her")
     if(firstTime == True):
         firstTime = False;
         time.sleep(10);
